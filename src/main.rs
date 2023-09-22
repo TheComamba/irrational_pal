@@ -1,15 +1,9 @@
-use data::e;
+use gui::Gui;
+use iced::{Sandbox, Settings};
 
 mod data;
+mod gui;
 
-fn main() {
-    let digits_e = data::extraction::get_digits(&e::E, 0, 10);
-    for i in 0..10 {
-        println!("{}: {}", i, digits_e[i]);
-    }
-
-    let digits_pi = data::extraction::get_digits(&data::pi::PI, 0, 10);
-    for i in 0..10 {
-        println!("{}: {}", i, digits_pi[i]);
-    }
+fn main() -> iced::Result {
+    Gui::run(Settings::default())
 }
