@@ -29,8 +29,8 @@ impl Sandbox for Gui {
     fn update(&mut self, message: Self::Message) {
         match message {
             GuiMessage::PickedNumber(number) => self.number = Some(number),
-
             GuiMessage::PickedMode(mode) => self.mode = mode,
+            GuiMessage::TypedPos(pos) => self.handle_pos_input(pos),
         }
     }
 
@@ -69,12 +69,18 @@ impl Sandbox for Gui {
 
 impl Gui {
     fn position_view(&self) -> iced::Element<'_, GuiMessage> {
+        let input =
+            TextInput::new("", &self.pos.to_string()).on_input(|inp| GuiMessage::TypedPos(inp));
         Row::new()
             .push(Text::new("Starting at: "))
-            .push(TextInput::new("", &self.pos.to_string()))
+            .push(input)
             .padding(5)
             .spacing(5)
             .into()
+    }
+
+    fn handle_pos_input(&mut self, input: String) {
+        self.pos = 0;
     }
 
     fn digit_view(&self) -> iced::Element<'_, GuiMessage> {
@@ -96,6 +102,7 @@ impl Gui {
 pub(crate) enum GuiMessage {
     PickedNumber(&'static str),
     PickedMode(GuiMode),
+    TypedPos(String),
 }
 
 #[derive(Debug, Clone)]
