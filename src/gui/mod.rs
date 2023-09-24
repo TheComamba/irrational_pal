@@ -1,5 +1,5 @@
 use self::message::GuiMessage;
-use crate::data::{e::E, pi::PI};
+use crate::data::{e::E, pi::PI, Number};
 use iced::{
     widget::{Button, Column, Row, Text},
     Sandbox,
@@ -10,7 +10,7 @@ mod message;
 mod recite;
 
 pub(crate) struct Gui {
-    number: Option<&'static str>,
+    number: Option<&'static Number>,
     mode: GuiMode,
     browse_pos: u32,
     recite_pos: u32,
@@ -37,8 +37,8 @@ impl Sandbox for Gui {
     }
 
     fn view(&self) -> iced::Element<'_, Self::Message> {
-        let button_e = Button::new(Text::new("e")).on_press(GuiMessage::PickedNumber(E));
-        let button_pi = Button::new(Text::new("Pi")).on_press(GuiMessage::PickedNumber(PI));
+        let button_e = Button::new(Text::new("e")).on_press(GuiMessage::PickedNumber(&E));
+        let button_pi = Button::new(Text::new("Pi")).on_press(GuiMessage::PickedNumber(&PI));
         let button_browse =
             Button::new(Text::new("Browse")).on_press(GuiMessage::PickedMode(GuiMode::Browse));
         let button_recite =

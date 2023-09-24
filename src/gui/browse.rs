@@ -25,7 +25,7 @@ impl Gui {
     }
 
     fn digit_view(&self) -> iced::Element<'_, GuiMessage> {
-        let number = self.number.unwrap_or("");
+        let number = self.number.unwrap_or_default();
         let shown_digits = get_digits(number, self.browse_pos, 10);
         let mut row = Row::new();
         let mut button_left = Button::new(Text::new("<"));

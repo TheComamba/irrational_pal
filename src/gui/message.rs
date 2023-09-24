@@ -1,8 +1,10 @@
+use crate::data::Number;
+
 use super::{Gui, GuiMode};
 
 #[derive(Debug, Clone)]
 pub(crate) enum GuiMessage {
-    PickedNumber(&'static str),
+    PickedNumber(&'static Number),
     PickedMode(GuiMode),
     TypedPos(String),
     PosDecrease,
@@ -20,7 +22,7 @@ impl Gui {
         }
     }
 
-    fn handle_number_pick(&mut self, number: &'static str) {
+    fn handle_number_pick(&mut self, number: &'static Number) {
         self.number = Some(number);
         self.browse_pos = 0;
         self.recite_pos = 0;
