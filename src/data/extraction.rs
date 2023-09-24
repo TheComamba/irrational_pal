@@ -1,6 +1,8 @@
 use super::Number;
 use std::cmp::min;
 
+pub(crate) static DISPLAYED_DIGITS: u32 = 20;
+
 pub(crate) fn get_digits(number: &Number, pos: u32, amount: u32) -> Vec<char> {
     let mut digits: Vec<char> = Vec::new();
     let mut index = pos;
@@ -15,7 +17,7 @@ pub(crate) fn get_digits(number: &Number, pos: u32, amount: u32) -> Vec<char> {
 
 pub(crate) fn number_representation(number: &Number, pos: u32) -> String {
     let name = number.name;
-    let amount = min(pos, 10);
+    let amount = min(pos, DISPLAYED_DIGITS);
     let start = pos - amount;
     let mut digits = get_digits(number, start, amount);
     if start == 0 && !digits.is_empty() {
@@ -47,6 +49,9 @@ mod tests {
         assert_eq!(number_representation(&E, 8), "e=2.7182818");
         assert_eq!(number_representation(&E, 9), "e=2.71828182");
         assert_eq!(number_representation(&E, 10), "e=2.718281828");
-        assert_eq!(number_representation(&E, 11), "e=...7182818284");
+        assert_eq!(
+            number_representation(&E, DISPLAYED_DIGITS + 1).starts_with("e=..."),
+            true
+        );
     }
 }

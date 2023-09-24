@@ -1,7 +1,6 @@
-use iced::widget::{Button, Column, Row, Text, TextInput};
-
 use super::{Gui, GuiMessage};
-use crate::data::extraction::number_representation;
+use crate::data::extraction::{number_representation, DISPLAYED_DIGITS};
+use iced::widget::{Button, Column, Row, Text, TextInput};
 
 impl Gui {
     pub(super) fn browse_view(&self) -> iced::Element<'_, GuiMessage> {
@@ -34,7 +33,7 @@ impl Gui {
             button_left = button_left.on_press(GuiMessage::PosDecrease);
         }
         let button_right = Button::new(Text::new(">")).on_press(GuiMessage::PosIncrease);
-        let number_rep = number_representation(number, self.browse_pos + 10);
+        let number_rep = number_representation(number, self.browse_pos + DISPLAYED_DIGITS);
 
         Row::new()
             .push(button_left)
