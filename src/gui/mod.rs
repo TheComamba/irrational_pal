@@ -31,6 +31,12 @@ impl Sandbox for Gui {
             GuiMessage::PickedNumber(number) => self.number = Some(number),
             GuiMessage::PickedMode(mode) => self.mode = mode,
             GuiMessage::TypedPos(pos) => self.handle_pos_input(pos),
+            GuiMessage::PosDecrease => {
+                if self.pos > 0 {
+                    self.pos -= 1;
+                }
+            }
+            GuiMessage::PosIncrease => self.pos += 1,
         }
     }
 
@@ -87,8 +93,11 @@ impl Gui {
         let number = self.number.unwrap_or("");
         let shown_digits = get_digits(number, self.pos, 10);
         let mut row = Row::new();
-        let button_left = Button::new(Text::new("<"));
-        let button_right = Button::new(Text::new(">"));
+        let mut button_left = Button::new(Text::new("<"));
+        if self.pos > 0 {
+            button_left = button_left.on_press(GuiMessage::PosDecrease);
+        }
+        let button_right = Button::new(Text::new(">")).on_press(GuiMessage::PosIncrease);
         row = row.push(button_left);
         for d in shown_digits.iter() {
             row = row.push(Text::new(d.to_string()));
@@ -103,6 +112,8 @@ pub(crate) enum GuiMessage {
     PickedNumber(&'static str),
     PickedMode(GuiMode),
     TypedPos(String),
+    PosDecrease,
+    PosIncrease,
 }
 
 #[derive(Debug, Clone)]
