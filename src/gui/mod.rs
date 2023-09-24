@@ -3,7 +3,7 @@ use iced::{
     Sandbox,
 };
 
-use crate::data::{e::E, pi::PI};
+use crate::data::{e::E, extraction::get_digits, pi::PI};
 
 pub(crate) struct Gui {
     number: Option<&'static str>,
@@ -69,12 +69,14 @@ impl Sandbox for Gui {
 
 impl Gui {
     fn digit_view(&self) -> iced::Element<'_, GuiMessage> {
+        let number = self.number.unwrap_or("");
+        let shown_digits = get_digits(number, self.pos, 10);
         let mut row = Row::new();
         let button_left = Button::new(Text::new("<"));
         let button_right = Button::new(Text::new(">"));
         row = row.push(button_left);
-        for i in 0..10 {
-            row = row.push(Text::new(format!("{}", i)));
+        for d in shown_digits.iter() {
+            row = row.push(Text::new(d.to_string()));
         }
         row = row.push(button_right);
         row.padding(5).spacing(5).into()
