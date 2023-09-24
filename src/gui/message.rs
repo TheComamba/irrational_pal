@@ -1,4 +1,4 @@
-use crate::data::Number;
+use crate::data::{extraction::get_digits, Number};
 
 use super::{Gui, GuiMode};
 
@@ -9,6 +9,7 @@ pub(crate) enum GuiMessage {
     TypedPos(String),
     PosDecrease,
     PosIncrease,
+    ReciteDigit(char),
 }
 
 impl Gui {
@@ -19,6 +20,7 @@ impl Gui {
             GuiMessage::TypedPos(pos) => self.handle_pos_input(pos),
             GuiMessage::PosDecrease => self.handle_pos_decrease(),
             GuiMessage::PosIncrease => self.handle_pos_increase(),
+            GuiMessage::ReciteDigit(digit) => self.handle_recite_digit(digit),
         }
     }
 
@@ -48,5 +50,16 @@ impl Gui {
 
     fn handle_pos_increase(&mut self) {
         self.browse_pos += 1;
+    }
+
+    fn handle_recite_digit(&mut self, digit_input: char) {
+        let number = match self.number {
+            Some(n) => n,
+            None => return,
+        };
+        let next_digit = get_digits(number, self.recite_pos, 1)[0];
+        if next_digit == digit_input {
+            self.recite_pos += 1;
+        }
     }
 }
