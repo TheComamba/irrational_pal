@@ -6,11 +6,13 @@ use iced::{
 use crate::data::{e::E, pi::PI};
 
 mod browse;
+mod recite;
 
 pub(crate) struct Gui {
     number: Option<&'static str>,
     mode: GuiMode,
-    pos: u32,
+    browse_pos: u32,
+    recite_pos: u32,
 }
 
 impl Sandbox for Gui {
@@ -20,7 +22,8 @@ impl Sandbox for Gui {
         Gui {
             number: None,
             mode: GuiMode::Browse,
-            pos: 0,
+            browse_pos: 0,
+            recite_pos: 0,
         }
     }
 
@@ -34,11 +37,11 @@ impl Sandbox for Gui {
             GuiMessage::PickedMode(mode) => self.mode = mode,
             GuiMessage::TypedPos(pos) => self.handle_pos_input(pos),
             GuiMessage::PosDecrease => {
-                if self.pos > 0 {
-                    self.pos -= 1;
+                if self.browse_pos > 0 {
+                    self.browse_pos -= 1;
                 }
             }
-            GuiMessage::PosIncrease => self.pos += 1,
+            GuiMessage::PosIncrease => self.browse_pos += 1,
         }
     }
 
@@ -65,10 +68,8 @@ impl Sandbox for Gui {
                     .spacing(5),
             );
             match self.mode {
-                GuiMode::Browse => {
-                    col = col.push(self.position_view()).push(self.digit_view());
-                }
-                GuiMode::Recite => {}
+                GuiMode::Browse => col = col.push(self.browse_view()),
+                GuiMode::Recite => col = col.push(self.recite_view()),
             }
         }
         col.padding(5).spacing(5).into()

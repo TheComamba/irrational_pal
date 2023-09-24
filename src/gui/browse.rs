@@ -1,15 +1,23 @@
-use iced::widget::{Button, Row, Text, TextInput};
-
-use crate::data::extraction::get_digits;
+use iced::widget::{Button, Column, Row, Text, TextInput};
 
 use super::{Gui, GuiMessage};
+use crate::data::extraction::get_digits;
 
 impl Gui {
-    pub(super) fn position_view(&self) -> iced::Element<'_, GuiMessage> {
-        let input =
-            TextInput::new("", &self.pos.to_string()).on_input(|inp| GuiMessage::TypedPos(inp));
-        Row::new()
-            .push(Text::new("Starting at: "))
+    pub(super) fn browse_view(&self) -> iced::Element<'_, GuiMessage> {
+        Column::new()
+            .push(self.position_view())
+            .push(self.digit_view())
+            .padding(5)
+            .spacing(5)
+            .into()
+    }
+
+    fn position_view(&self) -> iced::Element<'_, GuiMessage> {
+        let input = TextInput::new("", &self.browse_pos.to_string())
+            .on_input(|inp| GuiMessage::TypedPos(inp));
+        Column::new()
+            .push(Text::new("First displayed position: "))
             .push(input)
             .padding(5)
             .spacing(5)
@@ -17,15 +25,15 @@ impl Gui {
     }
 
     pub(super) fn handle_pos_input(&mut self, input: String) {
-        self.pos = 0;
+        self.browse_pos = 0;
     }
 
-    pub(super) fn digit_view(&self) -> iced::Element<'_, GuiMessage> {
+    fn digit_view(&self) -> iced::Element<'_, GuiMessage> {
         let number = self.number.unwrap_or("");
-        let shown_digits = get_digits(number, self.pos, 10);
+        let shown_digits = get_digits(number, self.browse_pos, 10);
         let mut row = Row::new();
         let mut button_left = Button::new(Text::new("<"));
-        if self.pos > 0 {
+        if self.browse_pos > 0 {
             button_left = button_left.on_press(GuiMessage::PosDecrease);
         }
         let button_right = Button::new(Text::new(">")).on_press(GuiMessage::PosIncrease);
