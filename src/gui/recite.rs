@@ -35,3 +35,40 @@ impl Gui {
         format!("{}={}", name, recited_digits)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::data::e::E;
+    use iced::Sandbox;
+
+    #[test]
+    fn test_number_text() {
+        let mut gui = Gui::new();
+        gui.number = Some(&E);
+        gui.recite_pos = 0;
+        assert_eq!(gui.number_text(), "e=");
+        gui.recite_pos = 1;
+        assert_eq!(gui.number_text(), "e=2.");
+        gui.recite_pos = 2;
+        assert_eq!(gui.number_text(), "e=2.7");
+        gui.recite_pos = 3;
+        assert_eq!(gui.number_text(), "e=2.71");
+        gui.recite_pos = 4;
+        assert_eq!(gui.number_text(), "e=2.718");
+        gui.recite_pos = 5;
+        assert_eq!(gui.number_text(), "e=2.7182");
+        gui.recite_pos = 6;
+        assert_eq!(gui.number_text(), "e=2.71828");
+        gui.recite_pos = 7;
+        assert_eq!(gui.number_text(), "e=2.718281");
+        gui.recite_pos = 8;
+        assert_eq!(gui.number_text(), "e=2.7182818");
+        gui.recite_pos = 9;
+        assert_eq!(gui.number_text(), "e=2.71828182");
+        gui.recite_pos = 10;
+        assert_eq!(gui.number_text(), "e=2.718281828");
+        gui.recite_pos = 11;
+        assert_eq!(gui.number_text(), "e=...7182818284");
+    }
+}
