@@ -1,11 +1,12 @@
+use self::message::GuiMessage;
+use crate::data::{e::E, pi::PI};
 use iced::{
     widget::{Button, Column, Row, Text},
     Sandbox,
 };
 
-use crate::data::{e::E, pi::PI};
-
 mod browse;
+mod message;
 mod recite;
 
 pub(crate) struct Gui {
@@ -32,17 +33,7 @@ impl Sandbox for Gui {
     }
 
     fn update(&mut self, message: Self::Message) {
-        match message {
-            GuiMessage::PickedNumber(number) => self.number = Some(number),
-            GuiMessage::PickedMode(mode) => self.mode = mode,
-            GuiMessage::TypedPos(pos) => self.handle_pos_input(pos),
-            GuiMessage::PosDecrease => {
-                if self.browse_pos > 0 {
-                    self.browse_pos -= 1;
-                }
-            }
-            GuiMessage::PosIncrease => self.browse_pos += 1,
-        }
+        self.handle_message(message);
     }
 
     fn view(&self) -> iced::Element<'_, Self::Message> {
@@ -74,15 +65,6 @@ impl Sandbox for Gui {
         }
         col.padding(5).spacing(5).into()
     }
-}
-
-#[derive(Debug, Clone)]
-pub(crate) enum GuiMessage {
-    PickedNumber(&'static str),
-    PickedMode(GuiMode),
-    TypedPos(String),
-    PosDecrease,
-    PosIncrease,
 }
 
 #[derive(Debug, Clone)]

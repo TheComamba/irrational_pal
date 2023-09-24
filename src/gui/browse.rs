@@ -24,10 +24,6 @@ impl Gui {
             .into()
     }
 
-    pub(super) fn handle_pos_input(&mut self, input: String) {
-        self.browse_pos = 0;
-    }
-
     fn digit_view(&self) -> iced::Element<'_, GuiMessage> {
         let number = self.number.unwrap_or("");
         let shown_digits = get_digits(number, self.browse_pos, 10);
