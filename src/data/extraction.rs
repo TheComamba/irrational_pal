@@ -1,6 +1,6 @@
 use super::Number;
 
-pub(crate) fn get_digits(number: &Number, pos: u32, amount: i32) -> Vec<char> {
+pub(crate) fn get_digits(number: &Number, pos: u32, amount: u32) -> Vec<char> {
     let mut digits: Vec<char> = Vec::new();
     let mut index = pos;
     let mut count = 0;
