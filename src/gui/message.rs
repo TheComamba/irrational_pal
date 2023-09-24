@@ -33,7 +33,11 @@ impl Gui {
     }
 
     fn handle_pos_input(&mut self, input: String) {
-        self.browse_pos = 0;
+        let pos = input.parse::<u32>();
+        self.browse_pos = match pos {
+            Ok(p) => p,
+            Err(_) => 0,
+        };
     }
 
     fn handle_pos_decrease(&mut self) {
