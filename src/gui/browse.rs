@@ -6,8 +6,12 @@ use crate::data::extraction::number_representation;
 impl Gui {
     pub(super) fn browse_view(&self) -> iced::Element<'_, GuiMessage> {
         Column::new()
-            .push(self.position_view())
+            .push(Text::new(format!(
+                "First shown position: {}",
+                self.browse_pos
+            )))
             .push(self.digit_view())
+            .push(self.position_view())
             .padding(5)
             .spacing(5)
             .into()
@@ -15,8 +19,8 @@ impl Gui {
 
     fn position_view(&self) -> iced::Element<'_, GuiMessage> {
         let input = TextInput::new("", &self.browse_pos.to_string()).on_input(GuiMessage::TypedPos);
-        Column::new()
-            .push(Text::new("First displayed position: "))
+        Row::new()
+            .push(Text::new("Jump to position: "))
             .push(input)
             .padding(5)
             .spacing(5)
@@ -30,8 +34,8 @@ impl Gui {
             button_left = button_left.on_press(GuiMessage::PosDecrease);
         }
         let button_right = Button::new(Text::new(">")).on_press(GuiMessage::PosIncrease);
-
         let number_rep = number_representation(number, self.browse_pos + 10);
+
         Row::new()
             .push(button_left)
             .push(Text::new(number_rep))
