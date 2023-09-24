@@ -14,8 +14,7 @@ impl Gui {
     }
 
     fn position_view(&self) -> iced::Element<'_, GuiMessage> {
-        let input = TextInput::new("", &self.browse_pos.to_string())
-            .on_input(|inp| GuiMessage::TypedPos(inp));
+        let input = TextInput::new("", &self.browse_pos.to_string()).on_input(GuiMessage::TypedPos);
         Column::new()
             .push(Text::new("First displayed position: "))
             .push(input)

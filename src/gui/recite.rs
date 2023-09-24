@@ -32,7 +32,7 @@ impl Gui {
                 recited_digits.insert(0, '.');
             }
         }
-        let recited_digits = String::from(recited_digits.iter().collect::<String>());
+        let recited_digits = recited_digits.iter().collect::<String>();
         format!("{}={}", name, recited_digits)
     }
 

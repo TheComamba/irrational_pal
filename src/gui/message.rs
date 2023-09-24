@@ -36,10 +36,7 @@ impl Gui {
 
     fn handle_pos_input(&mut self, input: String) {
         let pos = input.parse::<u32>();
-        self.browse_pos = match pos {
-            Ok(p) => p,
-            Err(_) => 0,
-        };
+        self.browse_pos = pos.unwrap_or(0);
     }
 
     fn handle_pos_decrease(&mut self) {
