@@ -1,5 +1,5 @@
 use iced::{
-    widget::{Button, Column, Row, Text},
+    widget::{Button, Column, Row, Text, TextInput},
     Sandbox,
 };
 
@@ -58,7 +58,7 @@ impl Sandbox for Gui {
             );
             match self.mode {
                 GuiMode::Browse => {
-                    col = col.push(self.digit_view());
+                    col = col.push(self.position_view()).push(self.digit_view());
                 }
                 GuiMode::Recite => {}
             }
@@ -68,6 +68,15 @@ impl Sandbox for Gui {
 }
 
 impl Gui {
+    fn position_view(&self) -> iced::Element<'_, GuiMessage> {
+        Row::new()
+            .push(Text::new("Starting at: "))
+            .push(TextInput::new("", &self.pos.to_string()))
+            .padding(5)
+            .spacing(5)
+            .into()
+    }
+
     fn digit_view(&self) -> iced::Element<'_, GuiMessage> {
         let number = self.number.unwrap_or("");
         let shown_digits = get_digits(number, self.pos, 10);
