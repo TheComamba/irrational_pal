@@ -1,7 +1,7 @@
 use iced::widget::{Button, Column, Row, Text, TextInput};
 
 use super::{Gui, GuiMessage};
-use crate::data::extraction::get_digits;
+use crate::data::extraction::number_representation;
 
 impl Gui {
     pub(super) fn browse_view(&self) -> iced::Element<'_, GuiMessage> {
@@ -25,18 +25,19 @@ impl Gui {
 
     fn digit_view(&self) -> iced::Element<'_, GuiMessage> {
         let number = self.number.unwrap_or_default();
-        let shown_digits = get_digits(number, self.browse_pos, 10);
-        let mut row = Row::new();
         let mut button_left = Button::new(Text::new("<"));
         if self.browse_pos > 0 {
             button_left = button_left.on_press(GuiMessage::PosDecrease);
         }
         let button_right = Button::new(Text::new(">")).on_press(GuiMessage::PosIncrease);
-        row = row.push(button_left);
-        for d in shown_digits.iter() {
-            row = row.push(Text::new(d.to_string()));
-        }
-        row = row.push(button_right);
-        row.padding(5).spacing(5).into()
+
+        let number_rep = number_representation(number, self.browse_pos + 10);
+        Row::new()
+            .push(button_left)
+            .push(Text::new(number_rep))
+            .push(button_right)
+            .padding(5)
+            .spacing(5)
+            .into()
     }
 }
