@@ -60,6 +60,9 @@ impl Gui {
         let next_digit = get_digits(number, self.recite_pos, 1)[0];
         if next_digit == digit_input {
             self.recite_pos += 1;
+            self.wrong_digits.clear();
+        } else {
+            self.wrong_digits.push(digit_input);
         }
     }
 }

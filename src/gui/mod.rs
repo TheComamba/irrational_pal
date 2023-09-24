@@ -14,6 +14,7 @@ pub(crate) struct Gui {
     mode: GuiMode,
     browse_pos: u32,
     recite_pos: u32,
+    wrong_digits: Vec<char>,
 }
 
 impl Sandbox for Gui {
@@ -25,6 +26,7 @@ impl Sandbox for Gui {
             mode: GuiMode::Browse,
             browse_pos: 0,
             recite_pos: 0,
+            wrong_digits: Vec::new(),
         }
     }
 

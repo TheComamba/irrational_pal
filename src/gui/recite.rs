@@ -40,8 +40,10 @@ impl Gui {
         let mut row = Row::new();
         for d in 0..10 {
             let digit: char = d.to_string().chars().next().unwrap();
-            let button =
-                Button::new(Text::new(d.to_string())).on_press(GuiMessage::ReciteDigit(digit));
+            let mut button = Button::new(Text::new(d.to_string()));
+            if !self.wrong_digits.contains(&digit) {
+                button = button.on_press(GuiMessage::ReciteDigit(digit));
+            }
             row = row.push(button);
         }
         row.padding(5).spacing(5).into()
