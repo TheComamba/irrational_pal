@@ -61,8 +61,18 @@ impl Sandbox for Gui {
                     .spacing(5),
             );
             match self.mode {
-                GuiMode::Browse => col = col.push(self.browse_view()),
-                GuiMode::Recite => col = col.push(self.recite_view()),
+                GuiMode::Browse => {
+                    col = col
+                        .push(self.first_position_text())
+                        .push(self.digit_view())
+                        .push(self.position_view())
+                }
+                GuiMode::Recite => {
+                    col = col
+                        .push(self.next_position_text())
+                        .push(self.recited_numbers_text())
+                        .push(self.digit_buttons())
+                }
             }
         }
         col.padding(5).spacing(5).into()

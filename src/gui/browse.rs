@@ -1,32 +1,22 @@
 use super::{Gui, GuiMessage};
 use crate::data::extraction::{number_representation, DISPLAYED_DIGITS};
-use iced::widget::{Button, Column, Row, Text, TextInput};
+use iced::widget::{Button, Row, Text, TextInput};
 
 impl Gui {
-    pub(super) fn browse_view(&self) -> iced::Element<'_, GuiMessage> {
-        Column::new()
-            .push(Text::new(format!(
-                "First shown position: {}",
-                self.browse_pos
-            )))
-            .push(self.digit_view())
-            .push(self.position_view())
-            .padding(5)
-            .spacing(5)
-            .into()
+    pub(super) fn first_position_text(&self) -> Text {
+        Text::new(format!("First shown position: {}", self.browse_pos))
     }
 
-    fn position_view(&self) -> iced::Element<'_, GuiMessage> {
+    pub(super) fn position_view(&self) -> Row<GuiMessage> {
         let input = TextInput::new("", &self.browse_pos.to_string()).on_input(GuiMessage::TypedPos);
         Row::new()
             .push(Text::new("Jump to position: "))
             .push(input)
             .padding(5)
             .spacing(5)
-            .into()
     }
 
-    fn digit_view(&self) -> iced::Element<'_, GuiMessage> {
+    pub(super) fn digit_view(&self) -> Row<GuiMessage> {
         let number = self.number.unwrap_or_default();
         let mut button_left = Button::new(Text::new("<"));
         if self.browse_pos > 0 {
@@ -41,6 +31,5 @@ impl Gui {
             .push(button_right)
             .padding(5)
             .spacing(5)
-            .into()
     }
 }
