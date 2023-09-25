@@ -2,7 +2,7 @@ use self::message::GuiMessage;
 use crate::data::{e::E, pi::PI, Number};
 use iced::{
     widget::{Button, Column, Row, Text},
-    Sandbox,
+    Length, Sandbox,
 };
 
 mod browse;
@@ -61,11 +61,44 @@ impl Sandbox for Gui {
                     .spacing(5),
             );
             match self.mode {
-                GuiMode::Browse => col = col.push(self.browse_view()),
-                GuiMode::Recite => col = col.push(self.recite_view()),
+                GuiMode::Browse => {
+                    col = col
+                        .push(self.first_position_text())
+                        .push(self.digit_view())
+                        .push(self.position_view())
+                }
+                GuiMode::Recite => {
+                    col = col
+                        .push(self.next_position_text())
+                        .push(self.recited_numbers_text())
+                        .push(self.digit_buttons())
+                }
             }
         }
-        col.padding(5).spacing(5).into()
+        col.align_items(iced::Alignment::Center)
+            .width(Length::Fill)
+            .padding(5)
+            .spacing(5)
+            .into()
+    }
+
+    fn theme(&self) -> iced::Theme {
+        iced::Theme::Dark
+    }
+
+    fn style(&self) -> iced::theme::Application {
+        iced::theme::Application::default()
+    }
+
+    fn scale_factor(&self) -> f64 {
+        1.0
+    }
+
+    fn run(settings: iced::Settings<()>) -> Result<(), iced::Error>
+    where
+        Self: 'static + Sized,
+    {
+        <Self as iced::Application>::run(settings)
     }
 }
 
