@@ -2,7 +2,7 @@ use self::message::GuiMessage;
 use crate::data::{e::E, pi::PI, Number};
 use iced::{
     widget::{Button, Column, Row, Text},
-    Sandbox,
+    Length, Sandbox,
 };
 
 mod browse;
@@ -75,7 +75,11 @@ impl Sandbox for Gui {
                 }
             }
         }
-        col.padding(5).spacing(5).into()
+        col.align_items(iced::Alignment::Center)
+            .width(Length::Fill)
+            .padding(5)
+            .spacing(5)
+            .into()
     }
 }
 
