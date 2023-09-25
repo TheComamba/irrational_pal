@@ -81,6 +81,25 @@ impl Sandbox for Gui {
             .spacing(5)
             .into()
     }
+
+    fn theme(&self) -> iced::Theme {
+        iced::Theme::Dark
+    }
+
+    fn style(&self) -> iced::theme::Application {
+        iced::theme::Application::default()
+    }
+
+    fn scale_factor(&self) -> f64 {
+        1.0
+    }
+
+    fn run(settings: iced::Settings<()>) -> Result<(), iced::Error>
+    where
+        Self: 'static + Sized,
+    {
+        <Self as iced::Application>::run(settings)
+    }
 }
 
 #[derive(Debug, Clone)]
