@@ -2,7 +2,7 @@ use self::message::GuiMessage;
 use crate::data::{e::E, pi::PI, Number};
 use iced::{
     widget::{Button, Column, Row, Text},
-    Length, Sandbox,
+    Length,
 };
 
 mod browse;
@@ -17,10 +17,8 @@ pub(crate) struct Gui {
     wrong_digits: Vec<char>,
 }
 
-impl Sandbox for Gui {
-    type Message = GuiMessage;
-
-    fn new() -> Self {
+impl Default for Gui {
+    fn default() -> Self {
         Gui {
             number: None,
             mode: GuiMode::Browse,
@@ -29,16 +27,14 @@ impl Sandbox for Gui {
             wrong_digits: Vec::new(),
         }
     }
+}
 
-    fn title(&self) -> String {
-        String::from("Irrational Pal")
-    }
-
-    fn update(&mut self, message: Self::Message) {
+impl Gui {
+    pub(crate) fn update(&mut self, message: GuiMessage) {
         self.handle_message(message);
     }
 
-    fn view(&self) -> iced::Element<'_, Self::Message> {
+    pub(crate) fn view(&self) -> iced::Element<'_, GuiMessage> {
         let button_e = Button::new(Text::new("e")).on_press(GuiMessage::PickedNumber(&E));
         let button_pi = Button::new(Text::new("Pi")).on_press(GuiMessage::PickedNumber(&PI));
         let button_browse =
@@ -75,30 +71,15 @@ impl Sandbox for Gui {
                 }
             }
         }
-        col.align_items(iced::Alignment::Center)
+        col.align_x(iced::Alignment::Center)
             .width(Length::Fill)
             .padding(5)
             .spacing(5)
             .into()
     }
 
-    fn theme(&self) -> iced::Theme {
+    pub(crate) fn theme(&self) -> iced::Theme {
         iced::Theme::Dark
-    }
-
-    fn style(&self) -> iced::theme::Application {
-        iced::theme::Application::default()
-    }
-
-    fn scale_factor(&self) -> f64 {
-        1.0
-    }
-
-    fn run(settings: iced::Settings<()>) -> Result<(), iced::Error>
-    where
-        Self: 'static + Sized,
-    {
-        <Self as iced::Application>::run(settings)
     }
 }
 
