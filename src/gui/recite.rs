@@ -3,11 +3,11 @@ use crate::data::extraction::number_representation;
 use iced::widget::{Button, Row, Text};
 
 impl Gui {
-    pub(super) fn next_position_text(&self) -> Text {
+    pub(super) fn next_position_text(&self) -> Text<'_> {
         Text::new(format!("Next position: {}", self.recite_pos))
     }
 
-    pub(super) fn recited_numbers_text(&self) -> Text {
+    pub(super) fn recited_numbers_text(&self) -> Text<'_> {
         let number_str = match self.number {
             Some(n) => number_representation(n, self.recite_pos),
             None => String::from(""),
@@ -15,7 +15,7 @@ impl Gui {
         Text::new(number_str)
     }
 
-    pub(super) fn digit_buttons(&self) -> Row<GuiMessage> {
+    pub(super) fn digit_buttons(&self) -> Row<'_, GuiMessage> {
         let mut row = Row::new();
         for d in 0..10 {
             let digit: char = d.to_string().chars().next().unwrap();
