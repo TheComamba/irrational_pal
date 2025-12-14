@@ -9,7 +9,8 @@ fn main() -> iced::Result {
         size: Size::new(300.0, 400.0),
         ..Default::default()
     };
-    iced::application("Irrational Pal", Gui::update, Gui::view)
+    iced::application(Gui::default, Gui::update, Gui::view)
+        .title("Irrational Pal")
         .window(window_settings)
         .theme(Gui::theme)
         .run()
